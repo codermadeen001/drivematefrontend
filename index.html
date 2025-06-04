@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriveMate - Premium Car Rental Service</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <style>
+
+         :root {
+            --primary: #1a3a5f;
+            --primary-light: #2c5282;
+            --secondary: #ff6b35;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --white: #ffffff;
+            --danger: #dc3545;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+        :root {
+            --primary: #1a3a5f;
+            --primary-light: #2c5282;
+            --secondary: #ff6b35;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Navbar */
+        .navbar {
+            background-color: var(--primary);
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--white);
+        }
+        
+        .navbar-brand span {
+            color: var(--secondary);
+        }
+        
+        .navbar-scrolled {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 2rem;
+        }
+        
+        .nav-link {
+            color: var(--white) !important;
+            font-weight: 600;
+            margin: 0 0.5rem;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: var(--secondary) !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(26, 58, 95, 0.8), rgba(26, 58, 95, 0.9)), url('/api/placeholder/1920/1080') center/cover no-repeat;
+            height: 100vh;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #e45a2a;
+            border-color: #e45a2a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+        }
+        
+        .btn-outline {
+            border: 2px solid var(--white);
+            color: var(--white);
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--white);
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Search Form */
+        .search-form {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 3rem;
+        }
+        
+        .search-form label {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+        
+        .form-control {
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid #ddd;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(26, 58, 95, 0.25);
+        }
+        
+        .search-btn {
+            width: 100%;
+            border-radius: 50px;
+            padding: 0.75rem;
+            background-color: var(--secondary);
+            border: none;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            background-color: #e45a2a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+        }
+        
+        /* Features Section */
+        .section {
+            padding: 6rem 0;
+        }
+        
+        .section-heading {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .section-subheading {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        /* Cars Section */
+        .cars-section {
+            background-color: var(--light-gray);
+        }
+        
+        .car-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+        
+        .car-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .car-img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .car-body {
+            padding: 1.5rem;
+        }
+        
+        .car-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .car-subtitle {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .car-features {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .car-feature {
+            display: flex;
+            align-items: center;
+        }
+        
+        .car-feature i {
+            color: var(--secondary);
+            margin-right: 0.5rem;
+        }
+        
+        .car-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .car-price span {
+            font-size: 1rem;
+            color: #6c757d;
+            font-weight: 400;
+        }
+        
+        /* Testimonials */
+        .testimonial-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            height: 100%;
+        }
+        
+        .testimonial-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .testimonial-rating {
+            color: #ffc107;
+            margin-bottom: 1rem;
+        }
+        
+        /* App Section */
+        .app-section {
+            background: linear-gradient(rgba(26, 58, 95, 0.9), rgba(26, 58, 95, 0.9)), url('/api/placeholder/1920/1080') center/cover no-repeat;
+            color: var(--white);
+        }
+        
+        .app-img {
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .app-badge {
+            height: 50px;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-logo span {
+            color: var(--secondary);
+        }
+        
+        .footer-text {
+            margin-bottom: 2rem;
+        }
+        
+        .footer-heading {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-link {
+            color: #ced4da;
+            display: block;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+        
+        .social-icons {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background-color: #e45a2a;
+            transform: translateY(-3px);
+        }
+
+        .google-signup {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .google-icon {
+            color: #4285f4;
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .google-signup .button {
+            color: #3f51b5;
+            color: #4285f4;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            background: none;
+        }
+
+
+
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    min-width: 300px;
+    max-width: 400px;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    overflow: hidden;
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    font-weight: 600;
+}
+
+.toast-error {
+    background-color: var(--danger);
+    color: white;
+    padding: 12px 15px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toast-success {
+    background-color: white;
+    color: var(--success);
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid var(--success);
+}
+
+.toast-success strong {
+    color: var(--success);
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.toast-message {
+    flex-grow: 1;
+    color: var(--success);
+}
+
+.toast-body {
+    background-color: white;
+    padding: 12px 15px;
+    color: var(--dark-gray);
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    line-height: 1;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0.8;
+    padding: 0;
+    margin-left: 15px;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
+        
+
+
+
+
+
+
+
+        /* Responsive */
+        @media (max-width: 991.98px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .app-img {
+                margin-bottom: 3rem;
+            }
+        }
+        
+        @media (max-width: 767.98px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons .btn {
+                display: block;
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+            
+            .search-form {
+                margin-top: 2rem;
+            }
+            
+            .section {
+                padding: 4rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Drive<span>Mate</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#cars">Cars</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7" data-aos="fade-right" data-aos-duration="1000">
+                    <div class="hero-content">
+                        <h1>Drive Your Dream Car Today</h1>
+                        <p class="hero-subtitle">Experience premium car rentals with DriveMate. Choose from our wide range of vehicles for your next adventure.</p>
+                        <div class="hero-buttons">
+                            <a href="#cars" class="btn btn-primary">Browse Cars</a>
+                            <a href="#how-it-works" class="btn btn-outline">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">
+                    <div class="search-form">
+                        <h3 class="mb-4">Find Your Perfect Car</h3>
+                        <form>
+                            <div class="mb-3">
+                                <label for="pickup-location" class="form-label">Pickup Location</label>
+                                <input type="text" class="form-control" id="pickup-location" placeholder="Enter city or airport">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="pickup-date" class="form-label">Pickup Date</label>
+                                        <input type="date" class="form-control" id="pickup-date">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="pickup-time" class="form-label">Pickup Time</label>
+                                        <input type="time" class="form-control" id="pickup-time">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="return-date" class="form-label">Return Date</label>
+                                        <input type="date" class="form-control" id="return-date">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="return-time" class="form-label">Return Time</label>
+                                        <input type="time" class="form-control" id="return-time">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="car-type" class="form-label">Car Type</label>
+                                <select class="form-select" id="car-type">
+                                    <option selected>Any Car Type</option>
+                                    <option>Economy</option>
+                                    <option>Compact</option>
+                                    <option>Midsize</option>
+                                    <option>SUV</option>
+                                    <option>Luxury</option>
+                                    <option>Sports</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn search-btn" >Search Available Cars</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="section-subheading" data-aos="fade-up">WHY CHOOSE US</p>
+                <h2 class="section-heading" data-aos="fade-up" data-aos-delay="200">The DriveMate Advantage</h2>
+                <p class="mb-0" data-aos="fade-up" data-aos-delay="300">We offer the best car rental experience with top-notch service and premium vehicles.</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4" data-aos="fade-up">
+                    <div class="feature-card">
+                        <i class="fas fa-car feature-icon"></i>
+                        <h3 class="feature-title">Wide Selection</h3>
+                        <p>Choose from our extensive fleet of vehicles ranging from economic options to luxury cars for any occasion.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <i class="fas fa-map-marker-alt feature-icon"></i>
+                        <h3 class="feature-title">Convenient Locations</h3>
+                        <p>With multiple pickup and drop-off locations across the city, we're always nearby when you need us.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h3 class="feature-title">Fully Insured</h3>
+                        <p>Drive with peace of mind knowing all our vehicles come with comprehensive insurance coverage.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <i class="fas fa-money-bill-wave feature-icon"></i>
+                        <h3 class="feature-title">Best Price Guarantee</h3>
+                        <p>We offer competitive pricing with no hidden fees or charges. What you see is what you pay.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-card">
+                        <i class="fas fa-headset feature-icon"></i>
+                        <h3 class="feature-title">24/7 Support</h3>
+                        <p>Our customer service team is available around the clock to assist you with any queries or issues.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-card">
+                        <i class="fas fa-bolt feature-icon"></i>
+                        <h3 class="feature-title">Quick Booking</h3>
+                        <p>Our streamlined booking process allows you to reserve your vehicle in just a few minutes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section bg-light" id="how-it-works">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="section-subheading" data-aos="fade-up">SIMPLE PROCESS</p>
+                <h2 class="section-heading" data-aos="fade-up" data-aos-delay="200">How It Works</h2>
+                <p class="mb-0" data-aos="fade-up" data-aos-delay="300">Renting a car with DriveMate is quick and hassle-free.</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3 text-center mb-4" data-aos="fade-up">
+                    <div class="rounded-circle bg-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 100px; height: 100px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <i class="fas fa-search" style="font-size: 2.5rem; color: var(--secondary);"></i>
+                    </div>
+                    <h4 class="mt-4 mb-3">Search</h4>
+                    <p>Browse our wide selection of vehicles and choose the one that suits your needs.</p>
+                </div>
+                
+                <div class="col-md-3 text-center mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="rounded-circle bg-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 100px; height: 100px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <i class="fas fa-calendar-check" style="font-size: 2.5rem; color: var(--secondary);"></i>
+                    </div>
+                    <h4 class="mt-4 mb-3">Book</h4>
+                    <p>Select your pickup and return dates and complete the booking process online.</p>
+                </div>
+                
+                <div class="col-md-3 text-center mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="rounded-circle bg-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 100px; height: 100px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <i class="fas fa-key" style="font-size: 2.5rem; color: var(--secondary);"></i>
+                    </div>
+                    <h4 class="mt-4 mb-3">Pickup</h4>
+                    <p>Visit our location, complete the paperwork, and get the keys to your rental car.</p>
+                </div>
+                
+                <div class="col-md-3 text-center mb-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="rounded-circle bg-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 100px; height: 100px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <i class="fas fa-road" style="font-size: 2.5rem; color: var(--secondary);"></i>
+                    </div>
+                    <h4 class="mt-4 mb-3">Enjoy</h4>
+                    <p>Hit the road and enjoy your journey with our comfortable and reliable vehicles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cars Section -->
+    <section class="section cars-section" id="cars">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="section-subheading" data-aos="fade-up">EXPLORE OUR FLEET</p>
+                <h2 class="section-heading" data-aos="fade-up" data-aos-delay="200">Popular Car Models</h2>
+                <p class="mb-0" data-aos="fade-up" data-aos-delay="300">Choose from our wide range of vehicles to suit your needs and budget.</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up">
+                    <div class="car-card">
+                        <img src="/assets/A6.jpg" alt="Economy Car" class="car-img">
+                        <div class="car-body">
+                            <h3 class="car-title">Audi A6</h3>
+                            <p class="car-subtitle">Sedan</p>
+                            <div class="car-features">
+                                <div class="car-feature">
+                                    <i class="fas fa-user"></i>
+                                    <span>5 Seats</span>
+                                </div>
+                                <div class="car-feature">
+                                    <i class="fas fa-cogs"></i>
+                                    <span>Automatic</span>
+                                </div>
+                                <div class="car-feature">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span>Petrol</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="car-price">
+                                    Ksh 2000 <span>/ day</span>
+                                </div>
+                                <a href="#" class="btn btn-primary"    data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal" >Rent Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="car-card">
+                        <img src="/assets/x3.jpg" alt="SUV" class="car-img">
+                        <div class="car-body">
+                            <h3 class="car-title">BMW X3</h3>
+                            <p class="car-subtitle">SUV</p>
+                            <div class="car-features">
+                                <div class="car-feature">
+                                    <i class="fas fa-user"></i>
+                                    <span>5 Seats</span>
+                                </div>
+                                <div class="car-feature">
+                                    <i class="fas fa-cogs"></i>
+                                    <span>Automatic</span>
+                                </div>
+                                <div class="car-feature">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span>Diesel</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="car-price">
+                                    Ksh 1800<span>/ day</span>
+                                </div>
+                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Rent Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="car-card">
+                        <img src="/assets/outback.jpg" alt="Luxury Car" class="car-img">
+                        <div class="car-body">
+                            <h3 class="car-title">Subaru Outback</h3>
+                            <p class="car-subtitle">Station Wagon</p>
+                            <div class="car-features">
+                                <div class="car-feature">
+                                    <i class="fas fa-user"></i>
+                                    <span>5 Seats</span>
+                                </div>
+                                <div class="car-feature">
+                                    <i class="fas fa-cogs"></i>
+                                    <span>CVT</span>
+                                </div>
+                                <div class="car-feature">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span>Hybrid</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="car-price">
+                                    Ksh 1500 <span>/ day</span>
+                                </div>
+                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Rent Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="#" class="btn btn-outline-primary btn-lg" data-aos="fade-up">View All Cars</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section" id="testimonials">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="section-subheading" data-aos="fade-up">CUSTOMER REVIEWS</p>
+                <h2 class="section-heading" data-aos="fade-up" data-aos-delay="200">What Our Customers Say</h2>
+                <p class="mb-0" data-aos="fade-up" data-aos-delay="300">Don't just take our word for it - see what our satisfied customers have to say.</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4" data-aos="fade-up">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"DriveMate exceeded all my expectations. The car was immaculate, the service was exceptional, and the whole rental process was smooth and efficient. I'll definitely be using them again!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/80/80" alt="Customer" class="me-3">
+                            <div>
+                                <h5 class="testimonial-author mb-0">Sarah Johnson</h5>
+                                <small>Business Traveler</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"The best car rental service I've ever used. Competitive prices, fantastic vehicle selection, and the customer service team went above and beyond to accommodate my needs. Highly recommended!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/80/80" alt="Customer" class="me-3">
+                            <div>
+                                <h5 class="testimonial-author mb-0">Michael Roberts</h5>
+                                <small>Tourist</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="testimonial-text">"We rented an SUV for our family vacation, and it was perfect. Clean, well-maintained, and spacious enough for all our luggage. The pickup and drop-off process was quick and straightforward. Great experience!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/80/80" alt="Customer" class="me-3">
+                            <div>
+                                <h5 class="testimonial-author mb-0">Jennifer Davis</h5>
+                                <small>Family Traveler</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile App Section -->
+    <section class="section app-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <img src="/api/placeholder/300/600" alt="Mobile App" class="app-img">
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <p class="section-subheading">DOWNLOAD OUR APP</p>
+                    <h2 class="section-heading mb-4">Get the DriveMate App</h2>
+                    <p class="mb-4">Experience the convenience of managing your rentals on the go. Our mobile app allows you to browse cars, make reservations, extend your rental period, and much more - all from your smartphone.</p>
+                    <div class="mb-4">
+                        <h5 class="mb-3"><i class="fas fa-check-circle me-2" style="color: var(--secondary);"></i> Easy Booking Process</h5>
+                        <h5 class="mb-3"><i class="fas fa-check-circle me-2" style="color: var(--secondary);"></i> Real-time Updates</h5>
+                        <h5 class="mb-3"><i class="fas fa-check-circle me-2" style="color: var(--secondary);"></i> Digital Rental Agreement</h5>
+                        <h5 class="mb-3"><i class="fas fa-check-circle me-2" style="color: var(--secondary);"></i> 24/7 Roadside Assistance</h5>
+                    </div>
+                    <div>
+                        <img src="/api/placeholder/150/50" alt="App Store" class="app-badge">
+                        <img src="/api/placeholder/150/50" alt="Google Play" class="app-badge">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="section bg-light" id="newsletter">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-heading mb-4" data-aos="fade-up">Subscribe to Our Newsletter</h2>
+                    <p class="mb-5" data-aos="fade-up" data-aos-delay="200">Stay updated with our latest offers, new car models, and travel tips.</p>
+                    <form class="row g-3 justify-content-center">
+                        <div class="col-md-8">
+                            <input type="email" class="form-control form-control-lg" placeholder="Your Email Address" data-aos="fade-right">
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary btn-lg w-100" data-aos="fade-left">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="section-subheading" data-aos="fade-up">GET IN TOUCH</p>
+                <h2 class="section-heading" data-aos="fade-up" data-aos-delay="200">Contact Us</h2>
+                <p class="mb-0" data-aos="fade-up" data-aos-delay="300">Have questions or need assistance? We're here to help!</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-5 mb-4 mb-lg-0" data-aos="fade-right">
+                    <div class="bg-light p-4 rounded-3 h-100">
+                        <h3 class="mb-4">Contact Information</h3>
+                        <div class="d-flex mb-4">
+                            <div class="me-3">
+                                <i class="fas fa-map-marker-alt" style="color: var(--secondary); font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h5>Location</h5>
+                                <p class="mb-0">Kisumu Airport, Kisumu, Kenya</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="me-3">
+                                <i class="fas fa-phone-alt" style="color: var(--secondary); font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h5>Phone</h5>
+                                <p class="mb-0">+2547 123-4567</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="me-3">
+                                <i class="fas fa-envelope" style="color: var(--secondary); font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h5>Email</h5>
+                                <p class="mb-0">info@drivemate.com</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="fas fa-clock" style="color: var(--secondary); font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h5>Working Hours</h5>
+                                <p class="mb-0">Monday-Friday: 8:00 AM - 8:00 PM<br>Saturday-Sunday: 9:00 AM - 6:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-7" data-aos="fade-left">
+                    <form class="bg-white p-4 rounded-3 shadow-sm">
+                        <h3 class="mb-4">Send Us a Message</h3>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingName" placeholder="John Doe">
+                                    <label for="floatingName">Full Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+                                    <label for="floatingEmail">Email Address</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="tel" class="form-control" id="floatingPhone" placeholder="+1 (555) 123-4567">
+                                    <label for="floatingPhone">Phone Number</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="floatingSelect">
+                                        <option selected>Select Subject</option>
+                                        <option value="1">Reservation Inquiry</option>
+                                        <option value="2">Support</option>
+                                        <option value="3">Feedback</option>
+                                        <option value="4">Partnership</option>
+                                        <option value="5">Other</option>
+                                    </select>
+                                    <label for="floatingSelect">Subject</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" placeholder="Your message here" id="floatingTextarea" style="height: 150px"></textarea>
+                                    <label for="floatingTextarea">Your Message</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <div class="footer-logo">Drive<span>Mate</span></div>
+                    <p class="footer-text">DriveMate offers premium car rental services with a wide range of vehicles to suit your needs. Experience comfort, convenience, and exceptional service.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#home" class="footer-link">Home</a></li>
+                        <li><a href="#cars" class="footer-link">Cars</a></li>
+                        <li><a href="#features" class="footer-link">Features</a></li>
+                        <li><a href="#how-it-works" class="footer-link">How It Works</a></li>
+                        <li><a href="#testimonials" class="footer-link">Testimonials</a></li>
+                        <li><a href="#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
+                    <h5 class="footer-heading">Vehicle Types</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Economy Cars</a></li>
+                        <li><a href="#" class="footer-link">Compact Cars</a></li>
+                        <li><a href="#" class="footer-link">Midsize Cars</a></li>
+                        <li><a href="#" class="footer-link">SUVs</a></li>
+                        <li><a href="#" class="footer-link">Luxury Cars</a></li>
+                        <li><a href="#" class="footer-link">Sports Cars</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading">Support</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Help Center</a></li>
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                        <li><a href="#" class="footer-link">Terms & Conditions</a></li>
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Refund Policy</a></li>
+                        <li><a href="#" class="footer-link">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 DriveMate. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id='loginModal'tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="loginModalLabel">Login to Your Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id='loginForm'>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                    <div class="google-signup">
+                        <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M21.35 11.1h-9.17v2.83h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.37 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81z"/>
+                        </svg>
+                        <button class="button" id="googleLoginBtn">Google Login</button>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="#" class="text-decoration-none link-style"  id="forgetPassword">Forgot Password?</a>
+                    </div>
+
+                    <hr>
+                    <div class="text-center">
+                        <p>Don't have an account?</p>
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">Create Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="registerModalLabel">Create an Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="Enter your first name">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="Enter your last name">
+                            </div>
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <label for="registerEmail" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="registerEmail" placeholder="name@example.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPhone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="registerPhone" placeholder="Enter your phone number(07/01)">
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" placeholder="Create a password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password">
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="agreeTerms">
+                            <label class="form-check-label" for="agreeTerms">I agree to the <a href="#">Terms & Conditions</a></label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Create Account</button>
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                        <p>Already have an account?</p>
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    
+    
+    <script>
+        const registerModalEl = document.getElementById('registerModal');
+        const loginModalEl = document.getElementById('loginModal');
+
+      // Initialize Bootstrap modal objects
+        const registerModal = bootstrap.Modal.getInstance(registerModalEl) || new bootstrap.Modal(registerModalEl);
+        const loginModal = new bootstrap.Modal(loginModalEl);
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+            
+            // Back to top button
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
+        });
+        
+        // Back to top button click event
+        document.querySelector('.back-to-top').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Set min dates for date inputs
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('pickup-date').setAttribute('min', today);
+        document.getElementById('return-date').setAttribute('min', today);
+        
+        // Set return date min based on pickup date
+        document.getElementById('pickup-date').addEventListener('change', function() {
+            document.getElementById('return-date').setAttribute('min', this.value);
+            if (document.getElementById('return-date').value < this.value) {
+                document.getElementById('return-date').value = this.value;
+            }
+        });
+
+
+
+       
+     //signup
+    document.getElementById("form").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const email = document.getElementById("registerEmail").value;
+    const password = document.getElementById("registerPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    let contact = document.getElementById("registerPhone").value;
+
+    function validateContactNumber(contact) {
+    const contactRegex = /^(07|01)\d{8}$/;
+    return contactRegex.test(contact);
+}
+
+// Validate contact number if provided
+if (contact && !validateContactNumber(contact)) {
+   // showToast  
+   createToast('Invalid contact number. Must start with 07 or 01 followed by 8 digits.', 'error');
+    return;
+}
+
+// Convert to international format if valid
+if (contact.startsWith("07") || contact.startsWith("01")) {
+    contact = "254" + contact.slice(1);
+}
+
+
+
+    if (password !== confirmPassword) {
+        //errorMessage.textContent = 
+        createToast("Password mismatch!","error");
+        return;
+    }
+
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (
+        password.length < minLength ||
+        !hasUpperCase ||
+        !hasLowerCase ||
+        !hasNumbers ||
+        !hasSpecialChar
+    ) {
+        //errorMessage.textContent = 
+        createToast("Password must contain uppercase, lowercase, number, and special character.", 'error');
+        return;
+    }
+
+    
+
+    try {
+
+
+
+        const response = await fetch("https://drivemate-1.onrender.com/api/users/signup/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ firstName, lastName,contact,email, password })
+        });
+        const data = await response.json();
+
+        if (data.success) {
+            alert(data.message);
+                    registerModal.hide();
+                    // Open login modal
+                    loginModal.show();
+            //window.location.href = "Signin.html";
+
+        } else {
+           createToast(data.message,'error')
+
+
+        }
+    } catch (error) {
+
+        createToast(error,'error')
+
+    }
+    //password@3333_AD
+
+
+});
+
+
+
+
+
+    
+       
+
+//login
+    
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB_Iigyq2UBUiJBA7-1Z9m2GFtCMHhj26M",
+            authDomain: "icents.firebaseapp.com",
+            projectId: "icents",
+            storageBucket: "icents.firebasestorage.app",
+            messagingSenderId: "1042290287974",
+            appId: "1:1042290287974:web:d3e680416891b17e6f54a7",
+            measurementId: "G-WC4EE3KDFT"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const googleProvider = new firebase.auth.GoogleAuthProvider();
+      
+       
+
+        // DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const errorMessageEl = document.getElementById('errorMessage');
+        const submitBtn = document.getElementById('submitBtn');
+        const forgetPasswordLink = document.getElementById('forgetPassword');
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
+        const loadingContainer = document.getElementById('loading-container');
+
+        // Show/Hide Loading
+        function showLoading() {
+            loadingContainer.style.display = 'block';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+        }
+
+        function hideLoading() {
+            loadingContainer.style.display = 'none';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Login';
+        }
+
+        // Show Error Message
+        function showError(message) {
+            errorMessageEl.textContent = message;
+            errorMessageEl.style.display = 'block';
+            setTimeout(() => {
+                errorMessageEl.style.display = 'none';
+            }, 3000);
+        }
+
+        // Handle Login Form Submit 
+        document.getElementById("loginForm").addEventListener("submit", async function(event) {
+        //loginForm.addEventListener('submit', async function(e) {
+           // e.preventDefault();
+           event.preventDefault();
+            
+           /* const email = email.value;
+            const password = password.value;
+    */
+    const email= document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+   
+            
+            try {
+                const response = await fetch('https://drivemate-1.onrender.com/api/users/login/', {
+                      method: 'POST',
+                      headers: {
+                      'Content-Type': 'application/json'
+                    },
+                     body: JSON.stringify({ email, password }),
+                     credentials: 'include'
+                   });
+
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    //localStorage.setItem('token', data.token);
+                    localStorage.setItem('token', data.token);
+                    
+                    if(data.role==="admin"){
+                        window.location.href ='adminPanel-Dashbord.html';
+                    }else{
+                        window.location.href ='clientPanel.html';
+                    }
+                    /*emailInput.value = '';
+                    passwordInput.value = '';*/  
+                
+                } else {
+                    //showError(data.message);
+                        /* Generate Report Button Styling */
+                        createToast(data.message,'error')
+                }
+            } catch (error) {
+               // showError('Network Error! Unable to connect to backend');
+               createToast(error,'error')
+                
+            }// innocent@I220
+            
+            //hideLoading();
+        });
+
+        // Handle Forget Password
+        forgetPasswordLink.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            const email = emailInput.value;
+            
+            if (!email) {
+                //showError('Email Needed');
+                 createToast("email needed",'error')
+                return;
+            }
+            
+           // showLoading();
+            
+            try {
+                const response = await fetch('https://drivemate-1.onrender.com/api/users/password_reset/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                   
+                });
+                
+                const data = await response.json();
+                alert(data.message);
+            } catch (error) {
+               // showError('Login Error: ' + error.message);
+            }
+            
+            //hideLoading();
+            
+        });
+
+        // Handle Google Login
+        googleLoginBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            try {
+                googleProvider.setCustomParameters({ prompt: "select_account"});
+                const result = await auth.signInWithPopup(googleProvider);//   auth.signInWithRedirect(googleProvider);// auth.signInWithPopup(googleProvider);
+                const userData = result.user;
+                
+                const data = {
+                    userName: userData.displayName,
+                    userEmail: userData.email,
+                    userImgUrl: userData.photoURL
+                };
+                
+                //showLoading();
+
+                
+                
+                const response = await fetch('https://drivemate-1.onrender.com/api/users/google_login/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data),
+                     credentials: 'include'
+                });
+                
+                const responseData = await response.json();
+                
+                if (responseData.success) {
+                   // alert(responseData.message)
+                    localStorage.setItem('token', responseData.token);
+                    if(responseData.role==="admin"){
+                        window.location.href ='adminPanel-Dashbord.html';
+                    }else{
+                        window.location.href ='clientPanel.html';
+                    }
+                } else {
+                    //showError(responseData.message);
+                     createToast(responseData.message,'error')
+                }
+            } catch (error) {
+                //showError('Google authentication failed!');
+                createToast(error, 'error')
+            }
+            
+           // hideLoading();
+        });
+
+
+
+        // Toast functionality
+const createToast = (message, type) => {
+    // Remove any existing toasts first
+    const existingToasts = document.querySelectorAll('.toast-container');
+    existingToasts.forEach(toast => toast.remove());
+
+    // Create toast container
+    const toastContainer = document.createElement('div');
+    toastContainer.className = 'toast-container';
+    
+    // Add appropriate class based on type
+    if (type === 'error') {
+        toastContainer.innerHTML = `
+            <div class="toast-header toast-error">
+                <strong>Error</strong>
+                <button type="button" class="toast-close">×</button>
+            </div>
+            <div class="toast-body">
+                ${message}
+            </div>
+        `;
+    } else if (type === 'success') {
+        toastContainer.innerHTML = `
+            <div class="toast-success">
+                <strong>Success</strong>
+                <div class="toast-message">${message}</div>
+                <button type="button" class="toast-close">×</button>
+            </div>
+        `;
+    }
+
+    // Add to document
+    document.body.appendChild(toastContainer);
+
+    // Add event listener to close button
+    const closeButton = toastContainer.querySelector('.toast-close');
+    if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            toastContainer.remove();
+        });
+    }
+
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        if (document.body.contains(toastContainer)) {
+            toastContainer.remove();
+        }
+    }, 5000);
+};
+
+        
+
+    </script>
+</body>
+</html>

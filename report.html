@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drive Mate Rental Report</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .btn-container {
+            text-align: center;
+        }
+        
+        #generate-report-btn {
+            background-color: #1a3a5f;
+            border-color: #1a3a5f;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        #generate-report-btn:hover {
+            background-color: #2c5282;
+            border-color: #2c5282;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Hidden report container - will only be shown when generating PDF */
+        #report-content {
+            display: none;
+        }
+        
+        :root {
+            --primary: #1a3a5f;
+            --primary-light: #2c5282;
+            --secondary: #ff6b35;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --white: #ffffff;
+            --danger: #dc3545;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+        
+        .report-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1140px;
+        }
+        
+        .report-header {
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        
+        .company-logo {
+            height: 60px;
+            margin-right: 15px;
+        }
+        
+        .header-title {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .timestamp {
+            color: var(--dark-gray);
+            font-size: 0.85rem;
+        }
+        
+        .stat-card {
+            border-radius: 8px;
+            padding: 1.5rem;
+            height: 100%;
+            transition: transform 0.3s ease;
+            border-left: 5px solid;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card.revenue {
+            border-left-color: var(--success);
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+        
+        .stat-card.total-cars {
+            border-left-color: var(--primary);
+            background-color: rgba(26, 58, 95, 0.1);
+        }
+        
+        .stat-card.rented {
+            border-left-color: var(--secondary);
+            background-color: rgba(255, 107, 53, 0.1);
+        }
+        
+        .stat-card.available {
+            border-left-color: var(--info);
+            background-color: rgba(23, 162, 184, 0.1);
+        }
+        
+        .stat-card.maintenance {
+            border-left-color: var(--warning);
+            background-color: rgba(255, 193, 7, 0.1);
+        }
+        
+        .stat-card.users {
+            border-left-color: var(--dark-gray);
+            background-color: rgba(52, 58, 64, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+        
+        .stat-label {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+        
+        .stat-icon {
+            font-size: 2rem;
+            opacity: 0.8;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            border-left: 4px solid var(--secondary);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .badge-status {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            border-radius: 20px;
+        }
+        
+        .badge-rented {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .badge-available {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .badge-maintenance {
+            background-color: var(--warning);
+            color: var(--dark-gray);
+        }
+        
+        .recent-activity-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .footer {
+            border-top: 1px solid var(--light-gray);
+            padding-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+        }
+        
+        #download-pdf-btn {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        #download-pdf-btn:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary-light);
+        }
+        
+        /* Print styles for PDF */
+        @media print {
+            body {
+                background-color: white;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+            
+            .report-container {
+                box-shadow: none;
+                margin: 0;
+                max-width: 100%;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+        }
+        
+        /* Loading spinner */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="ms-3 mb-0">Generating report...</p>
+    </div>
+    
+    <!-- Generate Button Container -->
+    <div class="btn-container">
+        <button id="generate-report-btn" class="btn btn-primary btn-lg">
+            <i class="fas fa-file-download me-2"></i>Generate Drive Mate Report
+        </button>
+    </div>
+
+    <!-- Hidden Report Container (only used for PDF generation) -->
+    <div class="container-fluid report-container" id="report-content">
+        <!-- Report Header -->
+        <div class="report-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-car-side me-2" style="font-size: 2rem; color: var(--primary);"></i>
+                    <h1 class="header-title mb-0">Drive Mate Rental Report</h1>
+                </div>
+            </div>
+            <div class="text-end">
+                <p class="timestamp mb-0" id="report-timestamp"></p>
+            </div>
+        </div>
+
+        <!-- Key Stats Section -->
+        <div class="mt-4 mb-5">
+            <h3 class="section-title">Key Performance Indicators</h3>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="stat-card revenue">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="stat-value" id="total-revenue">Ksh 0</h4>
+                                <p class="stat-label">Wallet Ballance</p>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card total-cars">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="stat-value" id="total-cars">0</h4>
+                                <p class="stat-label">Total Cars</p>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card users">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="stat-value" id="total-users">0</h4>
+                                <p class="stat-label">Registered Clients</p>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-4 mt-1">
+                <div class="col-md-4">
+                    <div class="stat-card rented">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="stat-value" id="rented-cars">0</h4>
+                                <p class="stat-label">Rented Cars - Today</p>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-key"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card available">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="stat-value" id="available-cars">0</h4>
+                                <p class="stat-label">Available Cars - Today</p>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card maintenance">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="stat-value" id="maintenance-cars">0</h4>
+                                <p class="stat-label">High Risk Breakdown Cars</p>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <h3 class="section-title">Car Status Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="car-status-chart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3 class="section-title">Recent Car Rentals (Last 7 Days)</h3>
+                <div class="chart-container">
+                    <canvas id="recent-rentals-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div class="mb-5">
+            <h3 class="section-title">Fleet Status Overview</h3>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Status</th>
+                            <th scope="col">Count</th>
+                            <th scope="col">Percentage</th>
+                            <th scope="col">Visualization</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span class="badge badge-status badge-rented">Rented</span>
+                            </td>
+                            <td id="table-rented-cars">0</td>
+                            <td id="table-rented-percent">0%</td>
+                            <td>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-secondary" id="progress-rented" role="progressbar" style="width: 0%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="badge badge-status badge-available">Available</span>
+                            </td>
+                            <td id="table-available-cars">0</td>
+                            <td id="table-available-percent">0%</td>
+                            <td>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-success" id="progress-available" role="progressbar" style="width: 0%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="badge badge-status badge-maintenance">High Risk Breakdown</span>
+                            </td>
+                            <td id="table-maintenance-cars">0</td>
+                            <td id="table-maintenance-percent">0%</td>
+                            <td>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-warning" id="progress-maintenance" role="progressbar" style="width: 0%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Recent Car Rentals Section -->
+        <div class="mb-5">
+            <h3 class="section-title">Car Models Activity (Last 7 Days)</h3>
+            <div id="car-activity-container" class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Car Model</th>
+                            <th scope="col">Rental Count</th>
+                            <th scope="col">Popularity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="car-activity-table-body">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer text-center mt-5">
+            <p class="mb-0">This report was automatically generated by the Drive Mate Rental System.</p>
+            <p class="mb-0">© 2025 Drive Mate Rental. All rights reserved.</p>
+        </div>
+    </div>
+    <script>
+
+
+
+
+
+    // Initialize jsPDF
+const { jsPDF } = window.jspdf;
+
+// Chart instances for later destruction
+let carStatusChart = null;
+let recentRentalsChart = null;
+
+// Function to format currency (now using Ksh instead of $)
+function formatCurrency(amount) {
+    return 'Ksh ' + new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2
+    }).format(amount);
+}
+
+// Function to format percentage
+function formatPercentage(value) {
+    return (value * 100).toFixed(1) + '%';
+}
+
+// Function to get current date and time formatted
+function getFormattedDateTime() {
+    const now = new Date();
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    };
+    return now.toLocaleDateString('en-US', options);
+}
+
+// Function to properly destroy charts before creating new ones
+function destroyCharts() {
+    if (carStatusChart) {
+        carStatusChart.destroy();
+        carStatusChart = null;
+    }
+    
+    if (recentRentalsChart) {
+        recentRentalsChart.destroy();
+        recentRentalsChart = null;
+    }
+}
+
+// Function to download PDF
+async function generateAndDownloadPDF() {
+    document.getElementById('loading-overlay').style.display = 'flex';
+    
+    try {
+        // Set timestamp
+        document.getElementById('report-timestamp').textContent = `Generated on: ${getFormattedDateTime()}`;
+        
+        // First, make sure report content is displayed for rendering
+        const reportContent = document.getElementById('report-content');
+        reportContent.style.display = 'block';
+        
+        // Clean up any existing charts
+        destroyCharts();
+        
+        // Generate report data before creating PDF
+        await generateReport();
+        
+        // Set a longer timeout to ensure charts are fully rendered
+        setTimeout(async () => {
+            try {
+                // Get original heights
+                const charts = reportContent.querySelectorAll('.chart-container');
+                const originalHeights = Array.from(charts).map(chart => chart.style.height);
+                
+                // Set fixed heights for better PDF rendering
+                charts.forEach(chart => {
+                    chart.style.height = '300px';
+                });
+                
+                const canvas = await html2canvas(reportContent, {
+                    scale: 1.5,
+                    useCORS: true,
+                    logging: false,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff'
+                });
+                
+                // Reset heights
+                charts.forEach((chart, index) => {
+                    chart.style.height = originalHeights[index];
+                });
+                
+                const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                
+                // Calculate dimensions
+                const imgWidth = 210; // A4 width in mm
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                let position = 0;
+                
+                // Add image to PDF
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                
+                // Save PDF
+                const fileName = `Drive_Mate_Rental_Report_${new Date().toISOString().split('T')[0]}.pdf`;
+                pdf.save(fileName);
+                
+                // Hide the report container again
+                reportContent.style.display = 'none';
+                document.getElementById('loading-overlay').style.display = 'none';
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                document.getElementById('loading-overlay').style.display = 'none';
+                alert('Error generating PDF: ' + error.message);
+            }
+        }, 2000); // Increased timeout to 2 seconds
+    } catch (error) {
+        console.error('Error generating report:', error);
+        document.getElementById('loading-overlay').style.display = 'none';
+        alert('Error generating report: ' + error.message);
+    }
+}
+
+// Function to populate car activity table
+function populateCarActivityTable(carActivity) {
+    const tableBody = document.getElementById('car-activity-table-body');
+    tableBody.innerHTML = '';
+    
+    // If no data
+    if (Object.keys(carActivity).length === 0) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td colspan="3" class="text-center">No rental activity in the last 7 days</td>
+        `;
+        tableBody.appendChild(row);
+        return;
+    }
+    
+    // Sort car models by rental count (descending)
+    const sortedModels = Object.entries(carActivity)
+        .sort((a, b) => b[1] - a[1]);
+    
+    // Calculate max count for popularity bar
+    const maxCount = Math.max(...sortedModels.map(item => item[1]));
+    
+    // Create rows
+    sortedModels.forEach(([model, count]) => {
+        const popularityPercentage = (count / maxCount) * 100;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${model}</td>
+            <td>${count}</td>
+            <td>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-primary" role="progressbar" 
+                        style="width: ${popularityPercentage}%" 
+                        aria-valuenow="${popularityPercentage}" 
+                        aria-valuemin="0" 
+                        aria-valuemax="100">
+                    </div>
+                </div>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to create car status chart
+function createCarStatusChart(totalCars, rentedCars, availableCars, maintenanceCars) {
+    const ctx = document.getElementById('car-status-chart').getContext('2d');
+    
+    // Destroy existing chart if it exists
+    if (carStatusChart) {
+        carStatusChart.destroy();
+    }
+    
+    carStatusChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Rented', 'Available', 'High Risk Breakdown'],
+            datasets: [{
+                data: [rentedCars, availableCars, maintenanceCars],
+                backgroundColor: [
+                    '#ff6b35', // Secondary (Rented)
+                    '#28a745', // Success (Available)
+                    '#ffc107'  // Warning (Maintenance)
+                ],
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '65%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        boxWidth: 12,
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.formattedValue;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = Math.round((context.raw / total) * 100);
+                            return `${label}: ${value} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    return carStatusChart;
+}
+
+// Function to create recent rentals chart
+function createRecentRentalsChart(carActivity) {
+    const ctx = document.getElementById('recent-rentals-chart').getContext('2d');
+    
+    // Destroy existing chart if it exists
+    if (recentRentalsChart) {
+        recentRentalsChart.destroy();
+    }
+    
+    const labels = Object.keys(carActivity);
+    const data = Object.values(carActivity);
+    
+    // If no data
+    if (labels.length === 0) {
+        ctx.font = '16px Arial';
+        ctx.fillStyle = '#6c757d';
+        ctx.textAlign = 'center';
+        ctx.fillText('No rental activity in the last 7 days', ctx.canvas.width / 2, ctx.canvas.height / 2);
+        return null;
+    }
+    
+    recentRentalsChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Rentals',
+                data: data,
+                backgroundColor: '#2c5282', // Primary light
+                borderColor: '#1a3a5f', // Primary
+                borderWidth: 1,
+                borderRadius: 5,
+                barThickness: 'flex',
+                maxBarThickness: 50
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            return tooltipItems[0].label;
+                        },
+                        label: function(context) {
+                            const label = context.dataset.label || '';
+                            const value = context.formattedValue;
+                            return `${label}: ${value}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+    
+    return recentRentalsChart;
+}
+
+// Function to update table percentages
+function updateTablePercentages(totalCars, rentedCars, availableCars, maintenanceCars) {
+    if (totalCars === 0) return;
+    
+    const rentedPercent = rentedCars / totalCars;
+    const availablePercent = availableCars / totalCars;
+    const maintenancePercent = maintenanceCars / totalCars;
+    
+    // Update text percentages
+    document.getElementById('table-rented-percent').textContent = formatPercentage(rentedPercent);
+    document.getElementById('table-available-percent').textContent = formatPercentage(availablePercent);
+    document.getElementById('table-maintenance-percent').textContent = formatPercentage(maintenancePercent);
+    
+    // Update progress bars
+    document.getElementById('progress-rented').style.width = `${rentedPercent * 100}%`;
+    document.getElementById('progress-available').style.width = `${availablePercent * 100}%`;
+    document.getElementById('progress-maintenance').style.width = `${maintenancePercent * 100}%`;
+}
+
+// Main function to generate report data
+async function generateReport() {
+    try {
+        //fetching data from backend
+        const response = await fetch('https://drivemate-1.onrender.com/api/rentals/report_generation_data/');
+        const result = await response.json(); 
+        const reportData = result.data;
+/*
+
+
+
+        // Mock data for development/testing
+        const reportData = {
+            total_revenue: 25650,
+            admin_balance: 12500,
+            total_cars: 45,
+            rented_cars: 18,
+            available_cars: 22,
+            maintenance_cars: 5,
+            total_users: 120,
+            rentals_last_7_days: {
+                "Toyota Camry": 5,
+                "Honda Civic": 3,
+                "Tesla Model 3": 7,
+                "Ford Mustang": 2,
+                "BMW X5": 4
+            }
+        };
+        */
+        
+        // Update stats
+        document.getElementById('total-revenue').textContent = formatCurrency(reportData.admin_balance);
+        document.getElementById('total-cars').textContent = reportData.total_cars;
+        document.getElementById('total-users').textContent = reportData.total_users;
+        document.getElementById('rented-cars').textContent = reportData.rented_cars;
+        document.getElementById('available-cars').textContent = reportData.available_cars;
+        document.getElementById('maintenance-cars').textContent = reportData.maintenance_cars;
+        
+        // Update table values
+        document.getElementById('table-rented-cars').textContent = reportData.rented_cars;
+        document.getElementById('table-available-cars').textContent = reportData.available_cars;
+        document.getElementById('table-maintenance-cars').textContent = reportData.maintenance_cars;
+        
+        // Update table percentages
+        updateTablePercentages(
+            reportData.total_cars,
+            reportData.rented_cars,
+            reportData.available_cars,
+            reportData.maintenance_cars
+        );
+        
+        // Create charts
+        carStatusChart = createCarStatusChart(
+            reportData.total_cars,
+            reportData.rented_cars,
+            reportData.available_cars,
+            reportData.maintenance_cars
+        );
+        
+        recentRentalsChart = createRecentRentalsChart(reportData.rentals_last_7_days);
+        
+        // Populate car activity table
+        populateCarActivityTable(reportData.rentals_last_7_days);
+        
+        // Return a promise that resolves after charts have rendered
+        return new Promise((resolve) => {
+            setTimeout(resolve, 500); // Short delay to ensure charts are rendered
+        });
+        
+    } catch (error) {
+        console.error('Error generating report data:', error);
+        throw error;
+    }
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Make sure report content is hidden initially
+    document.getElementById('report-content').style.display = 'none';
+    
+    // Attach generate report button event listener
+    document.getElementById('generate-report-btn').addEventListener('click', generateAndDownloadPDF);
+});
+    </script>
+</body>
+<!--script src="admin.js"></script-->
+</html>
