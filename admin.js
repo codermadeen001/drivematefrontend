@@ -35,7 +35,6 @@ async function loadUserDetails() {
             return;
         }
 
-        alert(user.profile_picture)
 
         // Dynamically set values into HTML
         document.getElementById("dp").src = user.profile_picture || "default_dp.jpg";
