@@ -1856,15 +1856,15 @@ async function submitFeedback() {
             // Show success message
            
            
-            createToast(data.message,'success')
+            
            
 
 
             // Close the modal
             const modal = bootstrap.Modal.getInstance(feedbackModal);
             modal.hide();
-            alert(data.message)
             location.reload();
+            createToast(data.message,'success')
           
             // Refresh feedback display
             fetchPreviousFeedback(currentCarId, currentRentalId);
