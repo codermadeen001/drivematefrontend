@@ -1014,8 +1014,8 @@
                     <div class="dropdown">
                         <img src="/api/placeholder/40/40" class="user-avatar" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" alt="User">
                         <div>
-                            <h6 class="mb-0" id="name">Admin User</h6>
-                            <small id="email">Administrator</small>
+                            <h6 class="mb-0" id="name">Loading...</h6>
+                            <small id="email">Loading...</small>
                         </div>
                     </div>
 
@@ -1043,28 +1043,28 @@
                     <div class="col-md-3">
                         <div class="dashboard-card text-center animate-fade-in">
                             <i class="fas fa-car dashboard-icon"></i>
-                            <h3 id="activeRentalsCount">3</h3>
+                            <h3 id="activeRentalsCount">0</h3>
                             <p class="mb-0">Active Rentals</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="dashboard-card text-center animate-fade-in" style="animation-delay: 0.1s;">
                             <i class="fas fa-calendar-check dashboard-icon"></i>
-                            <h3 id="totalBookingsCount">12</h3>
+                            <h3 id="totalBookingsCount">0</h3>
                             <p class="mb-0">Total Rentals since joining</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="dashboard-card text-center animate-fade-in" style="animation-delay: 0.2s;">
                             <i class="fas fa-money-bill-wave dashboard-icon"></i>
-                            <h3 id="totalSpent">Ksh 45,600</h3>
+                            <h3 id="totalSpent">Ksh 0</h3>
                             <p class="mb-0">Total Spent since joining</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="dashboard-card text-center animate-fade-in" style="animation-delay: 0.3s;">
                             <i class="fas fa-medal dashboard-icon"></i>
-                            <h3 id="memberStatus">Silver</h3>
+                            <h3 id="memberStatus"></h3>
                             <p class="mb-0">Member Status</p>
                         </div>
                     </div>
@@ -1089,7 +1089,7 @@
                         
                         
                         <div class="row">
-                            <div class="col-md-4">
+                            <!--div class="col-md-4">
                                 <div class="car-card">
                                     <img src="/api/placeholder/400/250" alt="Economy Car" class="car-img">
                                     <div class="car-body">
@@ -1113,9 +1113,7 @@
                                             <div class="car-price">
                                                 $45 <span>/ day</span>
                                             </div>
-                                            <!--button  class="btn btn-primary rent-now-btn" data-rental-id="1" data-bs-toggle="modal" data-bs-target="#rentaNowModal">
-                                                Rent Now
-                                            </button-->
+                                            
 
                                             <button  class="btn btn-primary rent-now-btn"  data-bs-toggle="modal" data-bs-target=  "#rentNowModal">
                                                 Rent Now
@@ -1123,7 +1121,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
 
                         </div>
                     </div>
@@ -1148,7 +1146,7 @@
                                     
                                     <!-- First rental card (fully visible) -->
                                     <div class="car-card feedback-card animate-fade-in">
-                                        <span class="feedback-badge" data-bs-toggle="modal" data-bs-target="#feedbackModal" data-car-id="1" data-car-name="Honda CR-V">
+                                        <!--span class="feedback-badge" data-bs-toggle="modal" data-bs-target="#feedbackModal" data-car-id="1" data-car-name="Honda CR-V">
                                             <i class="fas fa-comment me-1"></i> Feedback
                                         </span>
                                         <img src="/api/placeholder/400/250" alt="SUV" class="car-img">
@@ -1191,12 +1189,12 @@
                                                     Details
                                                 </button>
                                             </div>
-                                        </div>
+                                        </div-->
                                     </div>
                     
                                     <!-- Second rental card (hidden until scroll) -->
                                     <div class="car-card feedback-card animate-fade-in" style="animation-delay: 0.2s;">
-                                        <span class="feedback-badge" data-bs-toggle="modal" data-bs-target="#feedbackModal" data-car-id="2" data-car-name="Toyota Camry">
+                                        <!--span class="feedback-badge" data-bs-toggle="modal" data-bs-target="#feedbackModal" data-car-id="2" data-car-name="Toyota Camry">
                                             <i class="fas fa-comment me-1"></i> Feedback
                                         </span>
                                         <img src="/api/placeholder/400/250" alt="Sedan" class="car-img">
@@ -1239,7 +1237,7 @@
                                                     Details
                                                 </button>
                                             </div>
-                                        </div>
+                                        </div-->
                                     </div>
                                 </div>
                             </div>
@@ -1265,7 +1263,7 @@
                                             </thead>
                                             <tbody id="recentBookingsTable">
                                                 <tr>
-                                                    <td>Toyota Camry</td>
+                                                    <!--td>Toyota Camry</td>
                                                     <td>22 Apr 2025</td>
                                                     <td>25 Apr 2025</td>
                                                     <td><span class="booking-badge active">Active</span></td>
@@ -1283,7 +1281,7 @@
                                                     <td>5 Apr 2025</td>
                                                     <td>10 Apr 2025</td>
                                                     <td><span class="booking-badge completed">Completed</span></td>
-                                                    <td>Ksh 3000</td>
+                                                    <td>Ksh 3000</td-->
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1843,6 +1841,7 @@ async function submitFeedback() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
+        
             body: JSON.stringify({
                 car_id: currentCarId,
                 comment: feedbackText.value.trim(),
